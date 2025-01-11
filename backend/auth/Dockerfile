@@ -11,12 +11,12 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o <your_mod>
+RUN CGO_ENABLED=0 GOOS=linux go build -o auth-service
 
 FROM alpine:latest
 
 WORKDIR /root/
 
-COPY --from=builder /app/<your_mod> .
+COPY --from=builder /app/auth-service .
 
-CMD ["./<your_mod>"]
+CMD ["./auth-service"]
