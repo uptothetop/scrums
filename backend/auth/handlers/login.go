@@ -2,10 +2,19 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
+	"time"
+
+	"scrums/m/v2/models"
 
 	"github.com/dgrijalva/jwt-go"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
+
+// Set JWT time-to-live
+const JWT_TTL = 15 * time.Minute
 
 // Creds contract
 type Credentials struct {
@@ -19,13 +28,37 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-// Handles the user login endpoint of the auth service.
-func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "Not Implemented", http.StatusNotImplemented)
+// Handles the new user register endpoint of the auth service.
+func RegisterHandler(db *gorm.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var creds Credentials
+
+		err := json.NewDecoder(r.Body).Decode(&creds)
+		if err != nil {
+			http.Error(w, "Invalid Request", http.StatusBadRequest)
+			return
+		}
+
+		hashedPassword, err := bcrypt.GenerateFromPassword(
+			[]byte(creds.Password), bcrypt.DefaultCost)
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+
+		user := models.User{
+			Username:     creds.Username,
+			PasswordHash: string(hashedPassword),
+		}
+		if err := db.Create(&user).Error; err != nil {
+			http.Error(w, "Error creating user", http.StatusInternalServerError)
+			return
+		}
+		w.Write([]byte("User registered successfully"))
+	}
 }
 
-// Handles the new user register endpoint of the auth service.
-func RegisterHandler(w http.ResponseWriter, r *http.Request) {
+// Handles the user login endpoint of the auth service.
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Not Implemented", http.StatusNotImplemented)
 }
 

@@ -9,6 +9,22 @@ services:
     depends_on:
       - user-service
 
+  # This is a Template for copypasting
+  # Don't forget to: 
+  # 1. Change `your_service` and `YOUR_SERVICE_PORT`
+  # 2. Add a port for your service in .env file
+  # 3. Add a new rule in `nginx/nginx.conf` for your service
+
+  # your-service:
+  #   build:
+  #     context: ./backend/your_service
+  #   ports:
+  #     - ${YOUR_SERVICE_PORT}
+  #   environment:
+  #     - PORT=${YOUR_SERVICE_PORT}
+  #     - DB_HOST=db
+  #     - DB_PORT=5432
+
   auth-service:
     build:
       context: ./backend/auth

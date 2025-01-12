@@ -6,18 +6,12 @@ import (
 	"net/http"
 	"os"
 	"scrums/m/v2/handlers"
+	"scrums/m/v2/models"
 
 	"github.com/gorilla/mux"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
-
-type User struct {
-	gorm.Model
-	Username     string `gorm:"unique"`
-	PasswordHash string
-	UserId       uint
-}
 
 func main() {
 	// Fetch ENV variables
@@ -37,13 +31,13 @@ func main() {
 	}
 
 	// Automate DB creation/migration
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&models.User{})
 
 	r := mux.NewRouter()
 
 	// Register the routes.
 	r.HandleFunc("/login", handlers.LoginHandler).Methods("POST")
-	r.HandleFunc("/register", handlers.RegisterHandler).Methods("POST")
+	r.HandleFunc("/register", handlers.RegisterHandler(db)).Methods("POST")
 	r.HandleFunc("/refresh", handlers.RefreshHandler).Methods("POST")
 	r.HandleFunc("/verify", handlers.VerifyHandler).Methods("POST")
 
