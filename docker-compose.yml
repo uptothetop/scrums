@@ -7,7 +7,6 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      # - your-service
       - user-service
 
   # This is a Template for copypasting
@@ -25,6 +24,22 @@ services:
   #     - PORT=${YOUR_SERVICE_PORT}
   #     - DB_HOST=db
   #     - DB_PORT=5432
+
+  auth-service:
+    build:
+      context: ./backend/auth
+    environment:
+      - PORT=${AUTH_SERVICE_PORT}
+      - DB_HOST=db-auth
+      - DB_PORT=5432      # Using internal port default
+      - DB_NAME=auth_db
+      - DB_USER=authuser
+      - DB_PASSWORD=authpass
+      - JWT_SECRET=ixPGmozfj297cWN
+    depends_on:
+      - db-auth
+    ports:
+      - ${AUTH_SERVICE_PORT}
 
   user-service:
     build:
@@ -47,5 +62,17 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
+  db-auth:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=auth_db
+      - POSTGRES_USER=authuser
+      - POSTGRES_PASSWORD=authpass
+    ports:
+      - "5433:5433"  # Internal access uses this default port
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+
 volumes:
   db-data:
+  auth_db_data:

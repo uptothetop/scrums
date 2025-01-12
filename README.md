@@ -1,5 +1,7 @@
 # SCRUMS Ticket system
 
+SCRUMS is a simple system that allows to create tickets, and assign them to a certain users with a simple notification.
+
 ## Preflight Check
 
 - Docker
@@ -34,7 +36,8 @@ APIs are available on `localhost:8080/api/v1/<api_name>`
 Subfolder   | API Location      | Description
 ------------|-------------------|------------
 `!template` | N/A               | Microservice's template 
-`users`     | `/api/v1/users/`  | Microservice that manages users and Auth
+`users`     | `/api/v1/users/`  | Microservice that manages users
+`auth`      | `/api/v1/auth/`   | Auth microservice. Please look at the [Auth Documentation](backend/auth/README.md) for the details.
 
 #### Adding a new microservice
 
@@ -46,3 +49,8 @@ Subfolder   | API Location      | Description
     1. `docker-compose.yaml` - to add your new service into the virtual network
     1. `nginx/nginx.conf` - to add your API proxy pass, so your service will be visible
 
+### Testing
+
+We have a simple library called `testutils` that helps to maintain the most of the reusable testing methods.
+
+Please refer to the [Testutils Documentation](backend/testing/README.md) for testing conventions, code organizations, code snippets, etc.
