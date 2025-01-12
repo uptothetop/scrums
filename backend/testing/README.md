@@ -30,6 +30,13 @@ func TestGroup(t *testing.T) {
   }
 }
 ```
+## Running your tests
+
+Run `go test ./...` in `/backend` directory to run all the tests (please do it before commit) or in your microservice's directory to run only related tests.
+
+Major IDEs (like Visual Studio Code and Idea) should be able to automatically detect and run tests.
+
+All the tests are executed locally.
 
 ## Testutils
 
