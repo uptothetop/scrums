@@ -1,22 +1,27 @@
-# This is a template for creating a Dockerfile for a Go service. 
-# Each Go microservise should contain a Dockerfile that is based on this template.
+# Dockerfile located at /backend/auth/Dockerfile
 
-# Change <your_mod> to the name of the module you are working on
-FROM golang:alpine AS builder
+FROM golang:1.22-alpine as builder
 
 WORKDIR /app
 
-COPY go.mod ./
+# Copy go.mod and go.sum files
+COPY backend/auth/go.mod backend/auth/go.sum ./
+
+# Bring in the entire `backend` context so 'testing' is accessible
+COPY backend /app/backend
+
+WORKDIR /app/backend/auth
+
+# Use go mod download inside the context that has all your modules
 RUN go mod download
 
-COPY . .
-
-RUN CGO_ENABLED=0 GOOS=linux go build -o auth-service
+# Build the auth application
+RUN go build -o auth-app .
 
 FROM alpine:latest
 
-WORKDIR /root/
+WORKDIR /app
 
-COPY --from=builder /app/auth-service .
+COPY --from=builder /app/backend/auth/auth-app .
 
-CMD ["./auth-service"]
+CMD ["./auth-app"]

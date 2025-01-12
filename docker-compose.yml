@@ -27,7 +27,8 @@ services:
 
   auth-service:
     build:
-      context: ./backend/auth
+      context: ./
+      dockerfile: backend/auth/Dockerfile
     environment:
       - PORT=${AUTH_SERVICE_PORT}
       - DB_HOST=db-auth
