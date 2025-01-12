@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"scrums/m/v2/models"
-	"scrums/m/v2/utils"
+	"scrums/auth/m/v2/models"
+	"scrums/auth/m/v2/utils"
 
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"

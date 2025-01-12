@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"scrums/m/v2/handlers"
-	"scrums/m/v2/models"
+	"scrums/auth/m/v2/handlers"
+	"scrums/auth/m/v2/models"
 
 	"github.com/gorilla/mux"
 	"gorm.io/driver/postgres"
