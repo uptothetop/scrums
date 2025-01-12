@@ -1,5 +1,7 @@
 # SCRUMS Ticket system
 
+SCRUMS is a simple system that allows to create tickets, and assign them to a certain users with a simple notification.
+
 ## Preflight Check
 
 - Docker
@@ -47,3 +49,8 @@ Subfolder   | API Location      | Description
     1. `docker-compose.yaml` - to add your new service into the virtual network
     1. `nginx/nginx.conf` - to add your API proxy pass, so your service will be visible
 
+### Testing
+
+We have a simple library called `testutils` that helps to maintain the most of the reusable testing methods.
+
+Please refer to the [Testutils Documentation](backend/testing/README.md) for testing conventions, code organizations, code snippets, etc.
