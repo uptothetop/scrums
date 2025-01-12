@@ -36,7 +36,7 @@ func main() {
 	r := mux.NewRouter()
 
 	// Register the routes.
-	r.HandleFunc("/login", handlers.LoginHandler).Methods("POST")
+	r.HandleFunc("/login", handlers.LoginHandler(db)).Methods("POST")
 	r.HandleFunc("/register", handlers.RegisterHandler(db)).Methods("POST")
 	r.HandleFunc("/refresh", handlers.RefreshHandler).Methods("POST")
 	r.HandleFunc("/verify", handlers.VerifyHandler).Methods("POST")
