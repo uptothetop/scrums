@@ -7,40 +7,23 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      # - your-service
       - user-service
-
-  # This is a Template for copypasting
-  # Don't forget to: 
-  # 1. Change `your_service` and `YOUR_SERVICE_PORT`
-  # 2. Add a port for your service in .env file
-  # 3. Add a new rule in `nginx/nginx.conf` for your service
-
-  # your-service:
-  #   build:
-  #     context: ./backend/your_service
-  #   ports:
-  #     - ${YOUR_SERVICE_PORT}
-  #   environment:
-  #     - PORT=${YOUR_SERVICE_PORT}
-  #     - DB_HOST=db
-  #     - DB_PORT=5432
 
   auth-service:
     build:
       context: ./backend/auth
     environment:
       - PORT=${AUTH_SERVICE_PORT}
-      - DB_HOST=auth_db
-      - DB_PORT=5433
+      - DB_HOST=db-auth
+      - DB_PORT=5432      # Using internal port default
       - DB_NAME=auth_db
       - DB_USER=authuser
       - DB_PASSWORD=authpass
+      - JWT_SECRET=ixPGmozfj297cWN
     depends_on:
       - db-auth
     ports:
       - ${AUTH_SERVICE_PORT}
-    
 
   user-service:
     build:
@@ -52,8 +35,6 @@ services:
       - DB_HOST=db
       - DB_PORT=5432
 
-  # Main App's Postgres DB
-  # You can add a separate DB (with different port) for your service, if necessary.
   db:
     image: postgres:alpine
     environment:
@@ -72,7 +53,7 @@ services:
       - POSTGRES_USER=authuser
       - POSTGRES_PASSWORD=authpass
     ports:
-      - "5433:5433"
+      - "5433:5433"  # Internal access uses this default port
     volumes:
       - auth_db_data:/var/lib/postgresql/data
 

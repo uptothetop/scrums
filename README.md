@@ -34,7 +34,8 @@ APIs are available on `localhost:8080/api/v1/<api_name>`
 Subfolder   | API Location      | Description
 ------------|-------------------|------------
 `!template` | N/A               | Microservice's template 
-`users`     | `/api/v1/users/`  | Microservice that manages users and Auth
+`users`     | `/api/v1/users/`  | Microservice that manages users
+`auth`      | `/api/v1/auth/`   | Auth microservice. Please look at the [Auth Documentation](backend/auth/README.md) for the details.
 
 #### Adding a new microservice
 
